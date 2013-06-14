@@ -63,5 +63,3 @@ use \KMJ\ChannelAdvisorBundle\Traits\Account;
     }
 
 }
-
-?>

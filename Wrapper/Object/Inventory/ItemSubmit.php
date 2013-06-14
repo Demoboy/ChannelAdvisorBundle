@@ -581,17 +581,17 @@ class ItemSubmit implements RequestInterface, ResponseInterface {
         if (isset($obj->PriceInfo))
             $this->getPriceInfo()->load($obj->PriceInfo);
         
-        if (isset($obj->DistributionCenterList)) {
+        if (isset($obj->DistributionCenterList)) {            
             if (is_array($obj->DistributionCenterList)) {
                 $centers = array();
                 
                 foreach ($obj->DistributionCenterList as $d) {
-                    $centers[] = new DistributionCenterInfoSubmit($d);
+                    $centers[] = new DistributionCenterInfoResponse($d);
                 }
                 
                 $this->setDistributionCenterList($centers);
             } else {
-                $this->setDistributionCenterList(new DistributionCenterInfoSubmit($obj->DistributionCenterList));
+                $this->setDistributionCenterList(array(new DistributionCenterInfoResponse($obj->DistributionCenterList->DistributionCenterInfoResponse)));
             }
         }
 

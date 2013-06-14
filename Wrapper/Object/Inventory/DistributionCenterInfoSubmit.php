@@ -100,29 +100,4 @@ class DistributionCenterInfoSubmit implements \KMJ\ChannelAdvisorBundle\Interfac
             'ReceivedInInventory' => $this->getReceivedInInventory()->format('c'),
         );
     }
-
-        public function load($obj) {
-        if (isset($obj->DistributionCenterCode))
-            $this->setDistributionCenterCode($obj->DistributionCenterCode);
-
-
-        if (isset($obj->WarehouseLocation))
-            $this->setWarehouseLocation($obj->WarehouseLocation);
-
-        if (isset($obj->ReceivedInInventory))
-            $this->setReceivedInInventory(new \DateTime($obj->ReceivedInInventory));
-
-        if (isset($obj->ShippingRateList)) {
-            $array = array();
-            
-            foreach ($obj->ShippingRateList->ShippingRateInfo as $shippingRate) {
-                $array[] = new \KMJ\ChannelAdvisorBundle\Wrapper\Object\Inventory\ShippingRateInfo($shippingRate);
-            }
-
-            $this->setShippingRateList($array);
-        }
-    }
-
-    
-    
 }
