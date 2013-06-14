@@ -52,7 +52,7 @@ abstract class BaseRequest {
 
     protected function getSoapHeader() {
         return new SoapHeader(
-                "http://api.channeladvisor.com/webservices/", 'KMJCredentials', array(
+                "http://api.channeladvisor.com/webservices/", 'APICredentials', array(
             'DeveloperKey' => $this->getKey(),
             'Password' => $this->getPassword(),
                 )
