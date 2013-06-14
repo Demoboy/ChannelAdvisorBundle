@@ -1,6 +1,6 @@
 <?php
 
-namespace API\ChannelAdvisorBundle\DependencyInjection;
+namespace KMJ\ChannelAdvisorBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
