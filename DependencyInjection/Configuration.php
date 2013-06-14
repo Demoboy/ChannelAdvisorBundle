@@ -1,6 +1,6 @@
 <?php
 
-namespace KMJ\ChannelAdvisorBundle\DependencyInjection;
+namespace API\ChannelAdvisorBundle\DependencyInjection;
 
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
@@ -36,25 +36,25 @@ class Configuration implements ConfigurationInterface
                     ->arrayNode('wsdl')
                         ->children()
                             ->scalarNode('admin')
-                                ->defaultValue('https://api.channeladvisor.com/ChannelAdvisorKMJ/v7/AdminService.asmx?WSDL')
+                                ->defaultValue('https://api.channeladvisor.com/ChannelAdvisorAPI/v7/AdminService.asmx?WSDL')
                             ->end()
                             ->scalarNode('cart')
-                                ->defaultValue('https://api.channeladvisor.com/ChannelAdvisorKMJ/v7/CartService.asmx?WSDL')
+                                ->defaultValue('https://api.channeladvisor.com/ChannelAdvisorAPI/v7/CartService.asmx?WSDL')
                             ->end()
                             ->scalarNode('inventory')
-                                ->defaultValue('https://api.channeladvisor.com/ChannelAdvisorKMJ/v7/InventoryService.asmx?WSDL')
+                                ->defaultValue('https://api.channeladvisor.com/ChannelAdvisorAPI/v7/InventoryService.asmx?WSDL')
                             ->end()
                             ->scalarNode('listing')
-                                ->defaultValue('https://api.channeladvisor.com/ChannelAdvisorKMJ/v7/ListingService.asmx?WSDL')
+                                ->defaultValue('https://api.channeladvisor.com/ChannelAdvisorAPI/v7/ListingService.asmx?WSDL')
                             ->end()
                             ->scalarNode('marketplace')
-                                ->defaultValue('https://api.channeladvisor.com/ChannelAdvisorKMJ/v7/MarketplaceAdService.asmx?WSDL')
+                                ->defaultValue('https://api.channeladvisor.com/ChannelAdvisorAPI/v7/MarketplaceAdService.asmx?WSDL')
                             ->end()
                             ->scalarNode('order')
-                                ->defaultValue('https://api.channeladvisor.com/ChannelAdvisorKMJ/v7/OrderService.asmx?WSDL')
+                                ->defaultValue('https://api.channeladvisor.com/ChannelAdvisorAPI/v7/OrderService.asmx?WSDL')
                             ->end()
                             ->scalarNode('shipping')
-                                ->defaultValue('https://api.channeladvisor.com/ChannelAdvisorKMJ/v7/ShippingService.asmx?WSDL')
+                                ->defaultValue('https://api.channeladvisor.com/ChannelAdvisorAPI/v7/ShippingService.asmx?WSDL')
                             ->end() 
                         ->end()
                     ->end()
