@@ -463,7 +463,7 @@ class ItemSubmit implements RequestInterface, ResponseInterface {
         $imageList = array();
 
         foreach ($this->getImageList() as $image) {
-            $imageList = $image->toArray();
+            $imageList[] = $image->toArray();
         }
         $dList = array();
         
