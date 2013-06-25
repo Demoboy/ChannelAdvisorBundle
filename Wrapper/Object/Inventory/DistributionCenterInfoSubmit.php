@@ -14,7 +14,6 @@ namespace KMJ\ChannelAdvisorBundle\Wrapper\Object\Inventory;
  */
 class DistributionCenterInfoSubmit implements \KMJ\ChannelAdvisorBundle\Interfaces\RequestInterface {
 
-    
     //put your code here
     protected $distributionCenterCode;
     protected $quantity;

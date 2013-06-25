@@ -18,9 +18,7 @@ use KMJ\ChannelAdvisorBundle\Wrapper\Response\Inventory\DistributionCenterInfoRe
  * @author kaelinjacobson
  */
 class GetInventoryItemShippingInfo extends BaseRequest implements RequestInterface {
-    //put your code here
-
-use \KMJ\ChannelAdvisorBundle\Traits\Account;
+    use \KMJ\ChannelAdvisorBundle\Traits\Account;
 
     protected $sku;
 
@@ -48,16 +46,10 @@ use \KMJ\ChannelAdvisorBundle\Traits\Account;
                 $response->setResult($array);
             } else {
                 $dc = new DistributionCenterInfoResponse($result->GetInventoryItemShippingInfoResult->ResultData->DistributionCenterInfoResponse);
-
-                if (!$this->getSingleResult()) {
-                    $response->setResult(array($dc));
-                } else {
-                    $response->setResult($dc);
-                }
+                $response->setResult(array($dc));
             }
         }
-
-        print_r($response);
+        
         return $response;
     }
 
