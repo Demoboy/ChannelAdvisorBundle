@@ -5,6 +5,7 @@ namespace KMJ\ChannelAdvisorBundle\Wrapper\Request\Marketplace;
 use KMJ\ChannelAdvisorBundle\Interfaces\RequestInterface;
 use KMJ\ChannelAdvisorBundle\Wrapper\Object\Marketplace\MarketplaceAd;
 use KMJ\ChannelAdvisorBundle\Wrapper\Request\BaseRequest;
+use KMJ\ChannelAdvisorBundle\Wrapper\Response\BaseResponse;
 
 /**
  * Description of AddMarketplaceAd
@@ -27,10 +28,14 @@ class AddMarketplaceAd extends BaseRequest implements RequestInterface {
     }
     
     public function preformRequest() {
-        print_r($this->toArray());
         $result = parent::createClient()->AddMarketplaceAd($this->toArray());
+        $response = new BaseResponse($result->AddMarketplaceAdResult);
         
-        print_r($result);
+        if ($response->isSuccess() ) {
+            $response->setResult($result->AddMarketplaceAdResult->ResultData);
+        }
+        
+        return $response;
     }
 
     public function __construct() {
