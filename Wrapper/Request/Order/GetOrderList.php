@@ -40,7 +40,7 @@ class GetOrderList extends BaseRequest implements RequestInterface {
     public function __construct() {
         $this->setOrderCriteria(new Criteria());
     }
-
+    
     public function preformRequest() {
         $result = parent::createClient()->getOrderList($this->toArray());
         $response = new BaseResponse($result->GetOrderListResult);

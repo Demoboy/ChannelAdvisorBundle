@@ -16,20 +16,21 @@ use KMJ\ChannelAdvisorBundle\Interfaces\ResponseInterface;
  */
 class CustomValue implements ResponseInterface {
 
+    use \KMJ\ChannelAdvisorBundle\Traits\SimpleElementTrait;
     //put your code here
-    protected $id;
+    protected $ID;
     protected $value;
 
-    public function getId() {
-        return $this->id;
+    public function getID() {
+        return $this->ID;
     }
 
     public function getValue() {
         return $this->value;
     }
 
-    public function setId($id) {
-        $this->id = $id;
+    public function setID($ID) {
+        $this->ID = $ID;
         return $this;
     }
 
@@ -38,18 +39,4 @@ class CustomValue implements ResponseInterface {
         return $this;
     }
 
-    public function load($obj) {
-        if (isset($obj->ID))
-            $this->setId($obj->ID);
-
-        if (isset($obj->Value))
-            $this->setValue($obj->Value);
-    }
-    
-    public function __construct($obj = null) {
-        if ($obj != null)
-            $this->load ($obj);
-    }
 }
-
-?>

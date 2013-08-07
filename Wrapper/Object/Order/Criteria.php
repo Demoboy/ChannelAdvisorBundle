@@ -310,9 +310,21 @@ class Criteria implements RequestInterface {
     }
     
     public function toArray() {
+        if ($this->getOrderCreationFilterBeginTime() instanceof \DateTime) {
+            $orderCreationBegin = $this->getOrderCreationFilterBeginTime()->format("c");
+        } else {
+            $orderCreationBegin = null;
+        }
+        
+        if ($this->getOrderCreationFilterEndTime() instanceof \DateTime) {
+            $orderCreationEnd = $this->getOrderCreationFilterEndTime()->format("c");
+        } else {
+            $orderCreationEnd = null;
+        }
+        
         return array(
-            'OrderCreationFilterBeginTimeGMT' => $this->getOrderCreationFilterBeginTime(),
-            'OrderCreationFilterEndTimeGMT' => $this->getOrderCreationFilterEndTime(),
+            'OrderCreationFilterBeginTimeGMT' => $orderCreationBegin,
+            'OrderCreationFilterEndTimeGMT' => $orderCreationEnd,
             'StatusUpdateFilterBeginTimeGMT' => $this->getStatusUpdateFilterBeginTime(),
             'StatusUpdateFilterEndTimeGMT' => $this->getStatusUpdateFilterEndTime(),
             'JoinDateFiltersWithOr' => $this->getJoinDateFiltersWithOr(),

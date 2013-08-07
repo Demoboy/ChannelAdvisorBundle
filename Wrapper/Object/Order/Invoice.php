@@ -16,20 +16,20 @@ use KMJ\ChannelAdvisorBundle\Interfaces\ResponseInterface;
  */
 class Invoice implements ResponseInterface {
     //put your code here
-    protected $type;
+    use \KMJ\ChannelAdvisorBundle\Traits\SimpleElementTrait;
+    
+    protected $lineItemType;
     protected $unitPrice;
-    
-    
-    public function getType() {
-        return $this->type;
+    public function getLineItemType() {
+        return $this->lineItemType;
     }
 
     public function getUnitPrice() {
         return $this->unitPrice;
     }
 
-    public function setType($type) {
-        $this->type = $type;
+    public function setLineItemType($lineItemType) {
+        $this->lineItemType = $lineItemType;
         return $this;
     }
 
@@ -37,19 +37,6 @@ class Invoice implements ResponseInterface {
         $this->unitPrice = $unitPrice;
         return $this;
     }
-    
-    public function __construct($obj = null) {
-        if ($obj != null)
-            $this->load ($obj);
-    }
 
-    public function load($obj) {
-        if (isset($obj->LineItemType))
-            $this->setType ($obj->LineItemType);
-        
-        if (isset($obj->UnitPrice))
-            $this->setUnitPrice ($obj->UnitPrice);
-    }
+
 }
-
-?>

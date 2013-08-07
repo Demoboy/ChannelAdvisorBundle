@@ -1,7 +1,9 @@
 <?php
+
 namespace KMJ\ChannelAdvisorBundle\Wrapper\Object;
 
 use KMJ\ChannelAdvisorBundle\Wrapper\Object\AddressInfo;
+
 /**
  * Description of Contact
  *
@@ -9,13 +11,23 @@ use KMJ\ChannelAdvisorBundle\Wrapper\Object\AddressInfo;
  */
 class Contact extends AddressInfo {
 
+    use \KMJ\ChannelAdvisorBundle\Traits\SimpleElementTrait {
+        \KMJ\ChannelAdvisorBundle\Traits\SimpleElementTrait::__construct as private __contactConstruct;
+    }
+
+    public function __construct($obj = null) {
+        parent::__construct($obj);
+        $this->__contactConstruct($obj);
+    }
+
     protected $companyName;
     protected $title;
     protected $firstName;
     protected $lastName;
     protected $suffix;
+    protected $jobTitle;
     protected $phoneNumberDay;
-    protected $phoneNumberNight;
+    protected $phoneNumberEvening;
 
     public function getCompanyName() {
         return $this->companyName;
@@ -37,12 +49,16 @@ class Contact extends AddressInfo {
         return $this->suffix;
     }
 
+    public function getJobTitle() {
+        return $this->jobTitle;
+    }
+
     public function getPhoneNumberDay() {
         return $this->phoneNumberDay;
     }
 
-    public function getPhoneNumberNight() {
-        return $this->phoneNumberNight;
+    public function getPhoneNumberEvening() {
+        return $this->phoneNumberEvening;
     }
 
     public function setCompanyName($companyName) {
@@ -70,39 +86,18 @@ class Contact extends AddressInfo {
         return $this;
     }
 
+    public function setJobTitle($jobTitle) {
+        $this->jobTitle = $jobTitle;
+        return $this;
+    }
+
     public function setPhoneNumberDay($phoneNumberDay) {
         $this->phoneNumberDay = $phoneNumberDay;
         return $this;
     }
 
-    public function setPhoneNumberNight($phoneNumberNight) {
-        $this->phoneNumberNight = $phoneNumberNight;
+    public function setPhoneNumberEvening($phoneNumberEvening) {
+        $this->phoneNumberEvening = $phoneNumberEvening;
         return $this;
     }
-
-    public function load($obj) {
-        parent::load($obj);
-
-        if (isset($obj->CompanyName))
-            $this->setCompanyName($obj->CompanyName);
-        
-        if (isset($obj->Title))
-            $this->setTitle($obj->Title);
-        
-        if (isset($obj->FirstName))
-            $this->setFirstName($obj->FirstName);
-        
-        if (isset($obj->LastName))
-            $this->setLastName($obj->LastName);
-        
-        if (isset($obj->Suffix))
-            $this->setSuffix($obj->Suffix);
-        
-        if (isset($obj->PhoneNumberDay))
-            $this->setPhoneNumberDay($obj->PhoneNumberDay);
-        
-         if (isset($obj->PhoneNumberEvening))
-            $this->setPhoneNumberNight($obj->PhoneNumberEvening);
-    }
-
 }

@@ -1,4 +1,5 @@
 <?php
+
 namespace KMJ\ChannelAdvisorBundle\Wrapper\Object\Order;
 
 use KMJ\ChannelAdvisorBundle\Interfaces\ResponseInterface;
@@ -10,11 +11,16 @@ use KMJ\ChannelAdvisorBundle\Wrapper\Object\Order\LineItemBase;
  * @author kaelinjacobson
  */
 class Promo extends LineItemBase implements ResponseInterface {
+
+    use \KMJ\ChannelAdvisorBundle\Traits\SimpleElementTrait {
+        \KMJ\ChannelAdvisorBundle\Traits\SimpleElementTrait::__construct as private __pConstruct;
+    }
+
     //put your code here
     protected $promoCode;
     protected $unitPrice;
     protected $shippingPrice;
-    
+
     public function getPromoCode() {
         return $this->promoCode;
     }
@@ -41,27 +47,10 @@ class Promo extends LineItemBase implements ResponseInterface {
         $this->shippingPrice = $shippingPrice;
         return $this;
     }
-    
+
     public function __construct($obj = null) {
         parent::__construct($obj);
-        
-        if ($obj != null) 
-            $this->load($obj);
-        
-    }
-    public function load($obj) {
-        parent::load($obj);
-        
-        if (isset($obj->PromoCode))
-            $this->setPromoCode ($obj->PromoCode);
-        
-        if (isset($obj->UnitPrice))
-            $this->setUnitPrice ($obj->UnitPrice);
-        
-        if (isset($obj->ShippingPrice))
-            $this->setShippingPrice ($obj->ShippingPrice);
+        $this->__pConstruct($obj);
     }
 
 }
-
-?>

@@ -12,13 +12,14 @@ use KMJ\ChannelAdvisorBundle\Interfaces\ResponseInterface;
  */
 class PaymentInfo implements ResponseInterface {
 
+    use \API\EbayBundle\Wrapper\Traits\SimpleElementTrait;
     //put your code here
     protected $paymentType;
     protected $creditCardLast4;
-    protected $paypalId;
+    protected $payPalID;
     protected $merchantReferenceNumber;
-    protected $paymentTransactionId;
-
+    protected $paymentTransactionID;
+    
     public function getPaymentType() {
         return $this->paymentType;
     }
@@ -27,16 +28,16 @@ class PaymentInfo implements ResponseInterface {
         return $this->creditCardLast4;
     }
 
-    public function getPaypalId() {
-        return $this->paypalId;
+    public function getPayPalID() {
+        return $this->payPalID;
     }
 
     public function getMerchantReferenceNumber() {
         return $this->merchantReferenceNumber;
     }
 
-    public function getPaymentTransactionId() {
-        return $this->paymentTransactionId;
+    public function getPaymentTransactionID() {
+        return $this->paymentTransactionID;
     }
 
     public function setPaymentType($paymentType) {
@@ -49,8 +50,8 @@ class PaymentInfo implements ResponseInterface {
         return $this;
     }
 
-    public function setPaypalId($paypalId) {
-        $this->paypalId = $paypalId;
+    public function setPayPalID($payPalID) {
+        $this->payPalID = $payPalID;
         return $this;
     }
 
@@ -59,26 +60,8 @@ class PaymentInfo implements ResponseInterface {
         return $this;
     }
 
-    public function setPaymentTransactionId($paymentTransactionId) {
-        $this->paymentTransactionId = $paymentTransactionId;
+    public function setPaymentTransactionID($paymentTransactionID) {
+        $this->paymentTransactionID = $paymentTransactionID;
         return $this;
     }
-
-    public function load($obj) {
-        if (isset($obj->PaymentType))
-            $this->setPaymentType($obj->PaymentType);
-
-        if (isset($obj->CreditCardLast4))
-            $this->setCreditCardLast4($obj->CreditCardLast4);
-
-        if (isset($obj->PaypalID))
-            $this->setPaypalId($obj->PaypalID);
-
-        if (isset($obj->MerchantReferenceNumber))
-            $this->setMerchantReferenceNumber($obj->MerchantReferenceNumber);
-
-        if (isset($obj->PaymentTransactionID))
-            $this->setPaymentTransactionId($obj->PaymentTransactionID);
-    }
-
 }

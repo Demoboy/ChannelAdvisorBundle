@@ -9,5 +9,3 @@ namespace KMJ\ChannelAdvisorBundle\Interfaces;
 interface ResponseInterface {
     public function load($obj);
 }
-
-?>

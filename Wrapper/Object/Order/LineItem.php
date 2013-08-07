@@ -4,7 +4,6 @@ namespace KMJ\ChannelAdvisorBundle\Wrapper\Object\Order;
 
 use KMJ\ChannelAdvisorBundle\Interfaces\ResponseInterface;
 
-
 /**
  * Description of LineItem
  *
@@ -12,16 +11,20 @@ use KMJ\ChannelAdvisorBundle\Interfaces\ResponseInterface;
  */
 class LineItem extends LineItemBase implements ResponseInterface {
 
-    protected $id;
+    use \KMJ\ChannelAdvisorBundle\Traits\AdvancedElementTrait {
+        \KMJ\ChannelAdvisorBundle\Traits\AdvancedElementTrait::__construct as private __liConstuct;
+    }
+
+    protected $lineItemID;
     protected $allowNegativeQuantity;
     protected $quantity;
     protected $itemSaleSource;
-    protected $sku;
+    protected $SKU;
     protected $title;
-    protected $buyerUserId;
+    protected $buyerUserID;
     protected $buyerFeedbackRating;
-    protected $salesSourceId;
-    protected $vatRate;
+    protected $salesSourceID;
+    protected $VATRate;
     protected $unitWeight;
     protected $warehouseLocation;
     protected $taxCost;
@@ -35,13 +38,9 @@ class LineItem extends LineItemBase implements ResponseInterface {
     protected $userName;
     protected $distributionCenterCode;
     protected $FBA;
-
-    /**
-     *
-     * @var array 
-     */
     protected $itemPromoList;
-    protected $itemSaleSourceTransactionId;
+    protected $itemSaleSourceTransactionID;
+    protected $isExternallyFulfilled;
 
     public function getUnitPrice() {
         return $this->unitPrice;
@@ -281,101 +280,35 @@ class LineItem extends LineItemBase implements ResponseInterface {
         return $this->getFBA();
     }
 
-    public function load($obj) {
-        parent::load($obj);
-
-        if (isset($obj->LineItemID))
-            $this->setId($obj->LineItemID);
-
-        if (isset($obj->AllowNegativeQuantity))
-            $this->setAllowNegativeQuantity((bool) $obj->AllowNegativeQuantity);
-
-        if (isset($obj->Quantity))
-            $this->setQuantity($obj->Quantity);
-
-        if (isset($obj->ItemSaleSource))
-            $this->setItemSaleSource($obj->ItemSaleSource);
-
-        if (isset($obj->SKU))
-            $this->setSku($obj->SKU);
-
-        if (isset($obj->Title))
-            $this->setTitle($obj->Title);
-
-        if (isset($obj->BuyerUserID))
-            $this->setBuyerUserId($obj->BuyerUserID);
-
-        if (isset($obj->BuyerFeedbackRating))
-            $this->setBuyerFeedbackRating($obj->BuyerFeedbackRating);
-
-        if (isset($obj->SalesSourceID))
-            $this->setSalesSourceId($obj->SalesSourceID);
-
-        if (isset($obj->VATRate))
-            $this->setVatRate($obj->VATRate);
-
-        if (isset($obj->UnitWeight))
-            $this->setUnitWeight($obj->UnitWeight);
-
-        if (isset($obj->WarehouseLocation))
-            $this->setWarehouseLocation($obj->WarehouseLocation);
-
-        if (isset($obj->TaxCost))
-            $this->setTaxCost($obj->TaxCost);
-
-        if (isset($obj->ShippingCost))
-            $this->setShippingCost($obj->ShippingCost);
-
-        if (isset($obj->ShippingTaxCost))
-            $this->setShippingTaxCost($obj->ShippingTaxCost);
-
-        if (isset($obj->RecyclingFee))
-            $this->setRecyclingFee($obj->RecyclingFee);
-
-        if (isset($obj->GiftWrapCost))
-            $this->setGiftWrapCost($obj->GiftWrapCost);
-
-        if (isset($obj->GiftWrapTaxCost))
-            $this->setGiftWrapTaxCost($obj->GiftWrapTaxCost);
-
-        if (isset($obj->GiftMessage))
-            $this->setGiftMessage($obj->GiftMessage);
-
-        if (isset($obj->GiftWrapLevel))
-            $this->setGiftWrapLevel($obj->GiftWrapLevel);
-
-        if (isset($obj->UserName))
-            $this->setUserName($obj->UserName);
-
-        if (isset($obj->DistributionCenterCode))
-            $this->setDistributionCenterCode($obj->DistributionCenterCode);
-
-        if (isset($obj->IsFBA))
-            $this->setFBA((bool) $obj->IsFBA);
-
-        if (isset($obj->ItemPromoList)) {
-            if (is_array($obj->ItemPromoList)) {
-                $promoArray = array();
-
-                foreach ($obj->ItemPromoList as $promo) {
-                    $promoArray[] = new Promo($promo);
-                }
-
-                $this->setItemPromoList($promoArray);
-            } else {
-                $this->setItemPromoList(array(new Promo($obj->ItemPromoList)));
-            }
-        }
-
-        if (isset($obj->ItemSaleSourceTransactionID))
-            $this->setItemSaleSourceTransactionId((bool) $obj->ItemSaleSourceTransactionID);
-    }
-
     public function __construct($obj = null) {
         parent::__construct($obj);
+        $this->__liConstuct($obj);
+    }
 
-        if ($obj != null)
-            $this->load($obj);
+    public function formatValue($key, $value) {
+        switch ($key) {
+            case "allowNegativeQuantity":
+            case "isFBA":
+            case "itemSaleSourceTransactionID":
+            case "isExternallyFulfilled":
+                return (bool) $value;
+            case "itemPromoList":
+                if (is_array($value)) {
+                    $promoArray = array();
+
+                    foreach ($value as $promo) {
+                        $promoArray[] = new Promo($promo);
+                    }
+
+                    return ($promoArray);
+                } else {
+                    return (array(new Promo($value)));
+                }
+            case "unitWeight":
+                return (string) $value->_;
+            default:
+                return (string) $value;
+        }
     }
 
 }

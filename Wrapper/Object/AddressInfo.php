@@ -1,4 +1,5 @@
 <?php
+
 namespace KMJ\ChannelAdvisorBundle\Wrapper\Object;
 
 use KMJ\ChannelAdvisorBundle\Interfaces\ResponseInterface;
@@ -10,10 +11,16 @@ use KMJ\ChannelAdvisorBundle\Interfaces\ResponseInterface;
  */
 class AddressInfo implements ResponseInterface {
 
-    //put your code here
-
-    protected $address;
-    protected $address2;
+    use \KMJ\ChannelAdvisorBundle\Traits\SimpleElementTrait {
+        \KMJ\ChannelAdvisorBundle\Traits\SimpleElementTrait::__construct as private __aiConstruct;
+    }
+    
+    public function __construct($obj = null) {
+        $this->__aiConstruct($obj);
+    }
+    
+    protected $addressLine1;
+    protected $addressLine2;
     protected $city;
     protected $region;
     protected $regionDescription;
@@ -84,28 +91,7 @@ class AddressInfo implements ResponseInterface {
     }
 
     public function load($obj) {
-        if (isset($obj->AddressLine1))
-            $this->setAddress($obj->AddressLine1);
-
-        if (isset($obj->AddressLine2))
-            $this->setAddress2($obj->AddressLine2);
-
-        if (isset($obj->City))
-            $this->setCity($obj->City);
-
-        if (isset($obj->Region))
-            $this->setRegion($obj->Region);
-
-        if (isset($obj->RegionDescription))
-            $this->setRegionDescription($obj->RegionDescription);
-
-        if (isset($obj->PostalCode))
-            $this->setPostalCode($obj->PostalCode);
-
-        if (isset($obj->CountryCode))
-            $this->setCountryCode($obj->CountryCode);
+        
     }
 
 }
-
-?>

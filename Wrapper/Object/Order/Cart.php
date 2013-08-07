@@ -9,7 +9,6 @@ namespace KMJ\ChannelAdvisorBundle\Wrapper\Object\Order;
 
 use KMJ\ChannelAdvisorBundle\Interfaces\ResponseInterface;
 
-
 /**
  * Description of Cart
  *
@@ -17,18 +16,20 @@ use KMJ\ChannelAdvisorBundle\Interfaces\ResponseInterface;
  */
 class Cart implements ResponseInterface {
 
+    use \KMJ\ChannelAdvisorBundle\Traits\AdvancedElementTrait;
+
     //put your code here
-    protected $cartId;
+    protected $cartID;
     protected $checkoutSource;
-    protected $vatTaxCalculationOption;
-    protected $vatShippingOption;
-    protected $vatGiftWrapOption;
-    protected $lineItemSkuList;
+    protected $VATTaxCalculationOption;
+    protected $VATShippingOption;
+    protected $VATGiftWrapOption;
+    protected $lineItemSKUList;
     protected $lineItemPromoList;
     protected $lineItemInvoiceList;
 
-    public function getCartId() {
-        return $this->cartId;
+    public function getCartID() {
+        return $this->cartID;
     }
 
     public function getCheckoutSource() {
@@ -59,8 +60,8 @@ class Cart implements ResponseInterface {
         return $this->lineItemInvoiceList;
     }
 
-    public function setCartId($cartId) {
-        $this->cartId = $cartId;
+    public function setCartID($cartID) {
+        $this->cartID = $cartID;
         return $this;
     }
 
@@ -99,64 +100,45 @@ class Cart implements ResponseInterface {
         return $this;
     }
 
-    public function load($obj) {
-        if (isset($obj->CartID))
-            $this->setCartId($obj->CartID);
+    public function formatValue($key, $value) {
+        switch ($key) {
+            case "lineItemSKUList":
+                if (is_array($value->OrderLineItemItem)) {
+                    $lineItemSkuListArray = array();
 
-        if (isset($obj->CheckoutSource))
-            $this->setCheckoutSource($obj->CheckoutSource);
+                    foreach ($value->OrderLineItemItem as $sku) {
+                        $lineItemSkuListArray[] = new LineItem($sku);
+                    }
 
-        if (isset($obj->VATTaxCalculationOption))
-            $this->setVatTaxCalculationOption($obj->VATTaxCalculationOption);
-
-        if (isset($obj->VATShippingOption))
-            $this->setVatShippingOption($obj->VATShippingOption);
-
-        if (isset($obj->VATGiftWrapOption))
-            $this->setVatGiftWrapOption($obj->VATGiftWrapOption);
-        
-        if (isset($obj->LineItemSKUList)) {
-            if (is_array($obj->LineItemSKUList)) {
-                $lineItemSkuListArray = array();
-                
-                foreach ($obj->LineItemSKUList as $skuList) {
-                    $lineItemSkuListArray[] = new LineItem($skuList->OrderLineItemItem);
+                    return $lineItemSkuListArray;
+                } else {
+                    return array(new LineItem($value->OrderLineItemItem));
                 }
-                
-                $this->setLineItemSkuList($lineItemSkuListArray);
-            } else {
-                $this->setLineItemSkuList(array(new LineItem($obj->LineItemSKUList->OrderLineItemItem)));
-            }
-        }
-        
-        if (isset($obj->LineItemPromoList)) {
-            if (is_array($obj->LineItemPromoList->OrderLineItemPromo)) {
-                $promos = array();
-                
-                foreach ($obj->LineItemPromoList->OrderLineItemPromo as $promo) {
-                    $promos[] = new Promo($promo);
+            case "lineItemPromoList":
+                if (is_array($value->OrderLineItemPromo)) {
+                    $promos = array();
+
+                    foreach ($value->OrderLineItemPromo as $promo) {
+                        $promos[] = new Promo($promo);
+                    }
+
+                    return ($promos);
+                } else {
+                    return (array(new Promo($value->OrderLineItemPromo)));
                 }
-                
-                $this->setLineItemPromoList($promos);
-            } else {
-                $this->setLineItemPromoList(array(new Promo($obj->LineItemPromoList->OrderLineItemPromo)));
-            }
-        }
-        
-        if (isset($obj->LineItemInvoiceList)) {
-            if (is_array($obj->LineItemInvoiceList->OrderLineItemInvoice)) {
-                $invoices = array();
-                foreach ($obj->LineItemInvoiceList->OrderLineItemInvoice as $il) {
-                    $invoices[] = new Invoice($il);
+            case "lineItemInvoiceList":
+                if (is_array($value->OrderLineItemInvoice)) {
+                    $invoices = array();
+                    foreach ($value->OrderLineItemInvoice as $il) {
+                        $invoices[] = new Invoice($il);
+                    }
+                    return ($invoices);
+                } else {
+                    return (array(new Invoice($value->OrderLineItemInvoice)));
                 }
-                $this->setLineItemInvoiceList($invoices);
-            } else {
-                $this->setLineItemInvoiceList(array(new Invoice($obj->LineItemInvoiceList->OrderLineItemInvoice)));
-            }
-                
+            default:
+                return (string) $value;
         }
     }
 
 }
-
-?>

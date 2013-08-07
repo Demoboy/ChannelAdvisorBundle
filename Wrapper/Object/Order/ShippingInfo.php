@@ -17,9 +17,17 @@ use DateTime;
  */
 class ShippingInfo extends \KMJ\ChannelAdvisorBundle\Wrapper\Object\Contact implements ResponseInterface {
 
-    //put your code here
+    use \KMJ\ChannelAdvisorBundle\Traits\AdvancedElementTrait {
+        \KMJ\ChannelAdvisorBundle\Traits\AdvancedElementTrait::__construct as private __siConstruct;
+    }
+
+    public function __construct($obj = null) {
+        parent::__construct($obj);
+        $this->__siConstruct($obj);
+    }
+
     protected $shipmentList;
-    protected $shipmentInstructions;
+    protected $shippingInstructions;
     protected $estimatedShipDate;
     protected $deliveryDate;
 
@@ -27,8 +35,8 @@ class ShippingInfo extends \KMJ\ChannelAdvisorBundle\Wrapper\Object\Contact impl
         return $this->shipmentList;
     }
 
-    public function getShipmentInstructions() {
-        return $this->shipmentInstructions;
+    public function getShippingInstructions() {
+        return $this->shippingInstructions;
     }
 
     public function getEstimatedShipDate() {
@@ -39,13 +47,13 @@ class ShippingInfo extends \KMJ\ChannelAdvisorBundle\Wrapper\Object\Contact impl
         return $this->deliveryDate;
     }
 
-    public function setShipmentList(array $shipmentList) {
+    public function setShipmentList($shipmentList) {
         $this->shipmentList = $shipmentList;
         return $this;
     }
 
-    public function setShipmentInstructions($shipmentInstructions) {
-        $this->shipmentInstructions = $shipmentInstructions;
+    public function setShippingInstructions($shippingInstructions) {
+        $this->shippingInstructions = $shippingInstructions;
         return $this;
     }
 
@@ -59,30 +67,27 @@ class ShippingInfo extends \KMJ\ChannelAdvisorBundle\Wrapper\Object\Contact impl
         return $this;
     }
 
-    public function load($obj) {
-        parent::load($obj);
-        
-        if (isset($obj->ShipmentList)) {
-            if (is_array($obj->ShipmentList)) {
-                $shipmentList = array();
-                foreach ($obj->ShipmentList as $list) {  
-                    $shipmentList[] = new Shipment($list->Shipment);
+    public function formatValue($key, $value) {
+        switch ($key) {
+            case "shipmentList":
+                if (is_array($value)) {
+                    $shipmentList = array();
+                    foreach ($value as $list) {
+                        $shipmentList[] = new Shipment($list->Shipment);
+                    }
+
+                    return $shipmentList;
+                } else {
+                    return array(new Shipment($value->Shipment));
                 }
-                
-                $this->setShipmentList($shipmentList);
-            } else {
-                $this->setShipmentList(array(new Shipment($obj->ShipmentList->Shipment)));
-            }
+            case "estimatedShipDate":
+            case "deliveryDate":
+                if ($value == null)
+                    return $value;
+                return new \DateTime($value);
+            default:
+                return (string) $value;
         }
-
-        if (isset($obj->ShipmentInstructions))
-            $this->setShipmentInstructions($obj->ShipmentInstructions);
-
-        if (isset($obj->EstimatedShipDate))
-            $this->setEstimatedShipDate(new DateTime($obj->EstimatedShipDate));
-
-        if (isset($obj->DeliveryDate))
-            $this->setDeliveryDate(new DateTime($obj->DeliveryDate));
     }
 
 }

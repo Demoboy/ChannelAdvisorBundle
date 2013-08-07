@@ -11,37 +11,38 @@ use DateTime;
  */
 class Status implements ResponseInterface {
 
+    use \KMJ\ChannelAdvisorBundle\Traits\SimpleElementTrait;
     //put your code here
     protected $checkoutStatus;
-    protected $checkoutDate;
+    protected $checkoutDateGMT;
     protected $paymentStatus;
-    protected $paymentDate;
+    protected $paymentDateGMT;
     protected $shippingStatus;
-    protected $shippingDate;
+    protected $shippingDateGMT;
     protected $orderRefundStatus;
 
     public function getCheckoutStatus() {
         return $this->checkoutStatus;
     }
 
-    public function getCheckoutDate() {
-        return $this->checkoutDate;
+    public function getCheckoutDateGMT() {
+        return $this->checkoutDateGMT;
     }
 
     public function getPaymentStatus() {
         return $this->paymentStatus;
     }
 
-    public function getPaymentDate() {
-        return $this->paymentDate;
+    public function getPaymentDateGMT() {
+        return $this->paymentDateGMT;
     }
 
     public function getShippingStatus() {
         return $this->shippingStatus;
     }
 
-    public function getShippingDate() {
-        return $this->shippingDate;
+    public function getShippingDateGMT() {
+        return $this->shippingDateGMT;
     }
 
     public function getOrderRefundStatus() {
@@ -53,8 +54,8 @@ class Status implements ResponseInterface {
         return $this;
     }
 
-    public function setCheckoutDate($checkoutDate) {
-        $this->checkoutDate = $checkoutDate;
+    public function setCheckoutDateGMT($checkoutDateGMT) {
+        $this->checkoutDateGMT = $checkoutDateGMT;
         return $this;
     }
 
@@ -63,8 +64,8 @@ class Status implements ResponseInterface {
         return $this;
     }
 
-    public function setPaymentDate($paymentDate) {
-        $this->paymentDate = $paymentDate;
+    public function setPaymentDateGMT($paymentDateGMT) {
+        $this->paymentDateGMT = $paymentDateGMT;
         return $this;
     }
 
@@ -73,8 +74,8 @@ class Status implements ResponseInterface {
         return $this;
     }
 
-    public function setShippingDate($shippingDate) {
-        $this->shippingDate = $shippingDate;
+    public function setShippingDateGMT($shippingDateGMT) {
+        $this->shippingDateGMT = $shippingDateGMT;
         return $this;
     }
 
@@ -82,30 +83,4 @@ class Status implements ResponseInterface {
         $this->orderRefundStatus = $orderRefundStatus;
         return $this;
     }
-
-    public function load($obj) {
-        if (isset($obj->CheckoutStatus))
-            $this->setCheckoutStatus($obj->CheckoutStatus);
-
-        if (isset($obj->CheckoutDateGMT))
-            $this->setCheckoutDate(new DateTime($obj->CheckoutDateGMT));
-
-        if (isset($obj->PaymentStatus))
-            $this->setPaymentStatus($obj->PaymentStatus);
-
-        if (isset($obj->PaymentDateGMT))
-            $this->setPaymentDate(new DateTime($obj->PaymentDateGMT));
-
-        if (isset($obj->ShippingStatus))
-            $this->setShippingStatus($obj->ShippingStatus);
-
-        if (isset($obj->ShippingDateGMT))
-            $this->setShippingDate(new DateTime($obj->ShippingDateGMT));
-
-        if (isset($obj->OrderRefundStatus))
-            $this->setOrderRefundStatus($obj->OrderRefundStatus);
-    }
-
 }
-
-?>

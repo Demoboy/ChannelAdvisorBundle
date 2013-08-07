@@ -1,4 +1,5 @@
 <?php
+
 namespace KMJ\ChannelAdvisorBundle\Wrapper\Object\Order;
 
 use KMJ\ChannelAdvisorBundle\Interfaces\ResponseInterface;
@@ -10,7 +11,11 @@ use KMJ\ChannelAdvisorBundle\Interfaces\ResponseInterface;
  */
 class LineItemBase implements ResponseInterface {
 
-    protected $type;
+    use \KMJ\ChannelAdvisorBundle\Traits\SimpleElementTrait {
+        \KMJ\ChannelAdvisorBundle\Traits\SimpleElementTrait::__construct as private __libConstruct;
+    }
+
+    protected $lineItemType;
     protected $unitPrice;
 
     public function getType() {
@@ -32,8 +37,7 @@ class LineItemBase implements ResponseInterface {
     }
 
     public function __construct($obj = null) {
-        if ($obj != null)
-            $this->load($obj);
+       $this->__libConstruct($obj);
     }
 
     public function load($obj) {

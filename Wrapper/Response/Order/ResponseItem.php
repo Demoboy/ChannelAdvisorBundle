@@ -18,19 +18,21 @@ use DateTime;
  */
 class ResponseItem implements ResponseInterface {
 
+    use \KMJ\ChannelAdvisorBundle\Traits\AdvancedElementTrait;
+
     //put your code here
     protected $numberOfMatches;
-    protected $orderTime;
+    protected $orderTimeGMT;
     protected $lastUpdateDate;
     protected $totalOrderAmount;
     protected $orderState;
-    protected $dateCancelled;
-    protected $orderId;
+    protected $dateCancelledGMT;
+    protected $orderID;
     protected $clientOrderIdentifier;
-    protected $sellerOrderId;
+    protected $sellerOrderID;
     protected $flagStyle;
     protected $orderStatus;
-    protected $resellerId;
+    protected $resellerID;
     protected $buyerEmailAddress;
     protected $emailOptIn;
     protected $paymentInfo;
@@ -39,7 +41,7 @@ class ResponseItem implements ResponseInterface {
     protected $flagDescription;
     protected $shoppingCart;
     protected $customValueList;
-    protected $buyerIPAddress;
+    protected $buyerIpAddress;
     protected $transactionNotes;
 
     public function getNumberOfMatches() {
@@ -246,90 +248,121 @@ class ResponseItem implements ResponseInterface {
         $this->setShippingInfo(new ShippingInfo());
         $this->setBillingInfo(new Contact());
         $this->setShoppingCart(new Cart());
-        
+
         if ($obj != null)
             $this->load($obj);
     }
 
-    public function load($obj) {
-        if (isset($obj->NumberOfMatches))
-            $this->setNumberOfMatches($obj->NumberOfMatches);
+//    public function load($obj) {
+//        if (isset($obj->NumberOfMatches))
+//            $this->setNumberOfMatches($obj->NumberOfMatches);
+//
+//        if (isset($obj->OrderTimeGMT))
+//            $this->setOrderTime(new DateTime($obj->OrderTimeGMT));
+//
+//        if (isset($obj->LastUpdateDate))
+//            $this->setLastUpdateDate(new DateTime($obj->LastUpdateDate));
+//
+//        if (isset($obj->TotalOrderAmount))
+//            $this->setTotalOrderAmount($obj->TotalOrderAmount);
+//
+//        if (isset($obj->OrderState))
+//            $this->setOrderState($obj->OrderState);
+//
+//        if (isset($obj->DateCancelledGMT))
+//            $this->setDateCancelled(new DateTime($obj->DateCancelledGMT));
+//
+//        if (isset($obj->OrderID))
+//            $this->setOrderId($obj->OrderID);
+//
+//        if (isset($obj->ClientOrderIdentifier))
+//            $this->setClientOrderIdentifier($obj->ClientOrderIdentifier);
+//
+//        if (isset($obj->SellerOrderID))
+//            $this->setSellerOrderId($obj->SellerOrderID);
+//
+//        if (isset($obj->FlagStyle))
+//            $this->setFlagStyle($obj->FlagStyle);
+//
+//        if (isset($obj->OrderStatus))
+//            $this->getOrderStatus()->load($obj->OrderStatus);
+//
+//        if (isset($obj->ResellerID))
+//            $this->setResellerId($obj->ResellerID);
+//
+//        if (isset($obj->BuyerEmailAddress))
+//            $this->setBuyerEmailAddress($obj->BuyerEmailAddress);
+//
+//        if (isset($obj->EmailOptIn))
+//            $this->setEmailOptIn((bool) $obj->EmailOptIn);
+//
+//        if (isset($obj->PaymentInfo))
+//            $this->getPaymentInfo()->load($obj->PaymentInfo);
+//
+//        if (isset($obj->ShippingInfo))
+//            $this->getShippingInfo()->load($obj->ShippingInfo);
+//
+//        if (isset($obj->BillingInfo))
+//            $this->getBillingInfo()->load($obj->BillingInfo);
+//
+//        if (isset($obj->FlagDescription))
+//            $this->setFlagDescription($obj->FlagDescription);
+//
+//        if (isset($obj->ShoppingCart))
+//            $this->getShoppingCart()->load($obj->ShoppingCart);
+//
+//        if (isset($obj->CustomValueList)) {
+//            if (is_array($obj->CustomValueList)) {
+//                $cvArray = array();
+//
+//                foreach ($obj->CustomValueList as $cv) {
+//                    $cvAArray[] = new CustomValue($cv);
+//                }
+//
+//                $this->setCustomValueList($cvArray);
+//            } else {
+//                $this->setCustomValueList(array(new CustomValue($obj->CustomValueList)));
+//            }
+//        }
+//
+//        if (isset($obj->BuyerIpAddress))
+//            $this->setBuyerIPAddress($obj->BuyerIpAddress);
+//
+//        if (isset($obj->TransactionNotes))
+//            $this->setTransactionNotes($obj->TransactionNotes);
+//    }
 
-        if (isset($obj->OrderTimeGMT))
-            $this->setOrderTime(new DateTime($obj->OrderTimeGMT));
-
-        if (isset($obj->LastUpdateDate))
-            $this->setLastUpdateDate(new DateTime($obj->LastUpdateDate));
-
-        if (isset($obj->TotalOrderAmount))
-            $this->setTotalOrderAmount($obj->TotalOrderAmount);
-
-        if (isset($obj->OrderState))
-            $this->setOrderState($obj->OrderState);
-
-        if (isset($obj->DateCancelledGMT))
-            $this->setDateCancelled(new DateTime($obj->DateCancelledGMT));
-
-        if (isset($obj->OrderID))
-            $this->setOrderId($obj->OrderID);
-
-        if (isset($obj->ClientOrderIdentifier))
-            $this->setClientOrderIdentifier($obj->ClientOrderIdentifier);
-
-        if (isset($obj->SellerOrderID))
-            $this->setSellerOrderId($obj->SellerOrderID);
-
-        if (isset($obj->FlagStyle))
-            $this->setFlagStyle($obj->FlagStyle);
-
-        if (isset($obj->OrderStatus))
-            $this->getOrderStatus()->load($obj->OrderStatus);
-
-        if (isset($obj->ResellerID))
-            $this->setResellerId($obj->ResellerID);
-
-        if (isset($obj->BuyerEmailAddress))
-            $this->setBuyerEmailAddress($obj->BuyerEmailAddress);
-
-        if (isset($obj->EmailOptIn))
-            $this->setEmailOptIn((bool) $obj->EmailOptIn);
-
-        if (isset($obj->PaymentInfo))
-            $this->getPaymentInfo()->load($obj->PaymentInfo);
-
-        if (isset($obj->ShippingInfo))
-            $this->getShippingInfo()->load($obj->ShippingInfo);
-
-        if (isset($obj->BillingInfo))
-            $this->getBillingInfo()->load($obj->BillingInfo);
-
-        if (isset($obj->FlagDescription))
-            $this->setFlagDescription($obj->FlagDescription);
-
-        if (isset($obj->ShoppingCart))
-            $this->getShoppingCart()->load($obj->ShoppingCart);
-
-        if (isset($obj->CustomValueList)) {
-            if (is_array($obj->CustomValueList)) {
-                $cvArray = array();
-
-                foreach ($obj->CustomValueList as $cv) {
-                    $cvAArray[] = new CustomValue($cv);
+    public function formatValue($key, $value) {
+        switch ($key) {
+            case "orderStatus":
+                return new Status($value);
+            case "paymentInfo":
+                return new PaymentInfo($value);
+            case "shippingInfo":
+                return new ShippingInfo($value);
+            case "billingInfo":
+                return new Contact($value);
+            case "shoppingCart":
+                return new Cart($value);
+            case "customValueList":
+                if (is_array($value)) {
+                    $cvArray = array();
+                    foreach ($value as $cv) {
+                        $cvAArray[] = new CustomValue($cv);
+                    }
+                    return $cvAArray;
+                } else {
+                    return array(new CustomValue($value));
                 }
-
-                $this->setCustomValueList($cvArray);
-            } else {
-                $this->setCustomValueList(array(new CustomValue($obj->CustomValueList)));
-            }
+            case "lastUpdateDate":
+            case "orderTimeGMT":
+            case "dateCanceledGMT":
+                if ($value == null)
+                    return;
+                return new \DateTime($value);
+            default:
+                return (string) $value;
         }
-
-        if (isset($obj->BuyerIpAddress))
-            $this->setBuyerIPAddress($obj->BuyerIpAddress);
-
-        if (isset($obj->TransactionNotes))
-            $this->setTransactionNotes($obj->TransactionNotes);
     }
 
 }
-
-?>
