@@ -88,7 +88,6 @@ class DistributionCenterInfoResponse implements \KMJ\ChannelAdvisorBundle\Interf
 
     public function __construct($obj = null) {
         $this->setShippingRateList(array());
-        $this->setReceivedInInventory(new \DateTime());
 
         if ($obj != null)
             $this->load($obj);

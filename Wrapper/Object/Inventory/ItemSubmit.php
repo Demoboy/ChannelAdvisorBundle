@@ -441,6 +441,7 @@ class ItemSubmit implements RequestInterface, ResponseInterface {
         $this->setImageList(array());
         $this->setShippingInfo(new ShippingInfo());
         $this->setReceivedInInventory(new \DateTime("NOW"));
+        $this->setDistributionCenterList(array());
     }
     
     public function getDistributionCenterList() {
@@ -585,13 +586,19 @@ class ItemSubmit implements RequestInterface, ResponseInterface {
             if (is_array($obj->DistributionCenterList)) {
                 $centers = array();
                 
-                foreach ($obj->DistributionCenterList as $d) {
-                    $centers[] = new DistributionCenterInfoResponse($d);
+                foreach ($obj->DistributionCenterList as $key => $d) {
+                    $centers[$key] = new DistributionCenterInfoResponse($d);
+                    $centers[$key]->setWarehouseLocation($this->getWarehouseLocation())
+                            ->setReceivedInInventory($this->receivedInInventory);
                 }
                 
                 $this->setDistributionCenterList($centers);
             } else {
-                $this->setDistributionCenterList(array(new DistributionCenterInfoResponse($obj->DistributionCenterList->DistributionCenterInfoResponse)));
+                $x = new DistributionCenterInfoResponse($obj->DistributionCenterList->DistributionCenterInfoResponse);
+                $x->setReceivedInInventory($this->receivedInInventory)
+                        ->setWarehouseLocation($this->warehouseLocation);
+                
+                $this->setDistributionCenterList(array($x));
             }
         }
 

@@ -66,7 +66,7 @@ class ItemQuantityAndPrice implements \KMJ\ChannelAdvisorBundle\Interfaces\Reque
     
      public function setUpdateType($updateType) {
         if (!in_array($updateType, $this->getPossibleUpdateTypes())) {
-            throw new InvalidArgumentException("Update type is invalid");
+            throw new \InvalidArgumentException("Update type is invalid");
         }
         $this->updateType = $updateType;
         return $this;
