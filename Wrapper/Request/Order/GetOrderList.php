@@ -40,11 +40,16 @@ class GetOrderList extends BaseRequest implements RequestInterface {
     public function __construct() {
         $this->setOrderCriteria(new Criteria());
     }
-    
+
     public function preformRequest() {
         $result = parent::createClient()->getOrderList($this->toArray());
         $response = new BaseResponse($result->GetOrderListResult);
-
+       
+        if ($response->isSuccess() && !isset($result->GetOrderListResult->ResultData->OrderResponseItem)) {
+            $response->setStatus("Failure");
+            $response->setMessage("Order was not found");
+        }
+        
         if ($response->isSuccess()) {
             if (is_array($result->GetOrderListResult->ResultData->OrderResponseItem)) {
                 $responses = array();
@@ -53,7 +58,11 @@ class GetOrderList extends BaseRequest implements RequestInterface {
                 }
                 $response->setResult($responses);
             } else {
-                $response->setResult(array(new ResponseItem($result->GetOrderListResult->ResultData->OrderResponseItem)));
+                if ($this->getSingleResult()) {
+                    $response->setResult(new ResponseItem($result->GetOrderListResult->ResultData->OrderResponseItem));
+                } else {
+                    $response->setResult(array(new ResponseItem($result->GetOrderListResult->ResultData->OrderResponseItem)));
+                }
             }
         }
 
