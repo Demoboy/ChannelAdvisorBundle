@@ -25,7 +25,7 @@ trait SimpleElementTrait {
                 $this->$key = (string) $value;
             } else {
                 $class = get_class($this);
-                echo "no property: {$class} {$key}".PHP_EOL;
+                //echo "no property: {$class} {$key}".PHP_EOL;
             }
         }
     }
